@@ -1708,3 +1708,117 @@ p,
   .earned-bonus b { font-size: 17px; }
   .stats-panel { top: 76px; }
 }
+
+
+/* Animation smoothing pass v1 */
+
+.earned-bonus {
+  animation: earnedFloatToTraySmooth 1.05s cubic-bezier(.18,.9,.24,1) both !important;
+  will-change: transform, opacity;
+  transform-origin: center center;
+}
+
+.earned-orb {
+  animation: earnedOrbSmooth 0.78s ease-out both !important;
+}
+
+.burst-word {
+  animation-duration: 0.62s !important;
+}
+
+.burst-bit {
+  animation-duration: 0.68s !important;
+}
+
+.burst-mega .burst-bit {
+  animation-duration: 0.8s !important;
+}
+
+.shock-ring {
+  animation-duration: 0.72s !important;
+}
+
+.crack-flash {
+  animation-duration: 0.48s !important;
+}
+
+.shuffle-swirl {
+  animation-duration: 0.68s !important;
+}
+
+.new-best-stamp {
+  animation-duration: 0.9s !important;
+}
+
+.line-strike {
+  animation-duration: 0.52s !important;
+}
+
+.effect-earned .burst-word {
+  animation-duration: 0.54s !important;
+}
+
+/* Smooth single-pass movement.
+   It no longer scale-jumps repeatedly. */
+@keyframes earnedFloatToTraySmooth {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-18px) scale(.86);
+    filter: blur(2px);
+  }
+  16% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+    filter: blur(0);
+  }
+  58% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+    filter: blur(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(58px) scale(.58);
+    filter: blur(1px);
+  }
+}
+
+@keyframes earnedOrbSmooth {
+  0% {
+    transform: scale(.72);
+  }
+  45% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Faster overlay exits */
+@keyframes smashWord {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(.45) rotate(-7deg); filter: blur(4px); }
+  20% { opacity: 1; transform: translate(-50%, -50%) scale(1.1) rotate(2deg); filter: blur(0); }
+  55% { opacity: 1; transform: translate(-50%, -56%) scale(1) rotate(-1deg); }
+  100% { opacity: 0; transform: translate(-50%, -82%) scale(1.12) rotate(4deg); }
+}
+
+@keyframes burstFly {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(.25) rotate(0deg);
+  }
+  18% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(calc(var(--x) - 50%), calc(var(--y) - 50%)) scale(.82) rotate(var(--r));
+  }
+}
+
+@media (max-width: 760px) {
+  .earned-bonus {
+    top: 11%;
+  }
+}

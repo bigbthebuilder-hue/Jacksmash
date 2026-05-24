@@ -701,7 +701,7 @@ function App() {
         setEarnedBonus({ type, emoji: display.emoji, label: display.label, id: Date.now() });
         setScreenEffect({ type: "earned", label: display.label.toUpperCase(), density: 18 });
         setTimeout(() => setEarnedBonus(null), 1250);
-        setTimeout(() => setScreenEffect(null), 900);
+        setTimeout(() => setScreenEffect(null), 675);
       }
 
       return { ...current, [type]: nextValue };
@@ -726,7 +726,7 @@ function App() {
     if (cleared <= 0) return;
     const level = cleared >= 4 || comboCount >= 4 ? "mega" : cleared >= 2 || comboCount >= 2 ? "big" : "small";
     setBurstLevel(level);
-    setTimeout(() => setBurstLevel(null), level === "mega" ? 1100 : 850);
+    setTimeout(() => setBurstLevel(null), level === "mega" ? 825 : 640);
   }
 
   function handleBonusAwards(cleared, previousScore, nextScore, nextCombo) {
@@ -761,8 +761,8 @@ function App() {
     if (nextScore > best) {
       setNewBest(true);
       setScreenEffect({ type: "newbest", label: "NEW BEST!", density: 30 });
-      setTimeout(() => setNewBest(false), 1300);
-      setTimeout(() => setScreenEffect(null), 1000);
+      setTimeout(() => setNewBest(false), 975);
+      setTimeout(() => setScreenEffect(null), 750);
     }
 
     updateStats((current) => ({
@@ -788,7 +788,7 @@ function App() {
         setTimeout(() => setLineEffect(null), 720);
       }
       setScreenEffect({ type: "smash", label: clearResult.cleared >= 4 ? "MEGA SMASH!" : clearResult.cleared >= 2 ? "BIG SMASH!" : "SMASH!", density: clearResult.cleared >= 4 ? 36 : clearResult.cleared >= 2 ? 24 : 14 });
-      setTimeout(() => setScreenEffect(null), 900);
+      setTimeout(() => setScreenEffect(null), 675);
     }
 
     triggerBurst(clearResult.cleared, scoring.nextCombo);
@@ -857,7 +857,7 @@ function App() {
     setBonuses((current) => ({ ...current, shuffle: current.shuffle - 1 }));
     updateStats((stats) => ({ ...stats, shufflesUsed: stats.shufflesUsed + 1 }));
     setScreenEffect({ type: "shuffle", label: "SHUFFLE!", density: 22 });
-    setTimeout(() => setScreenEffect(null), 900);
+    setTimeout(() => setScreenEffect(null), 675);
     setMessage("Pieces rerolled.");
     setGameOver(false);
   }
@@ -907,7 +907,7 @@ function App() {
       setBoard(nextBoard);
       setEffectCells([`${row}-${col}`]);
       setScreenEffect({ type: "hammer", label: "CRACK!", density: 10 });
-      setTimeout(() => setScreenEffect(null), 700);
+      setTimeout(() => setScreenEffect(null), 525);
       setTimeout(() => setEffectCells([]), 500);
       consumeBonus("hammer");
       updateStats((stats) => ({ ...stats, hammersUsed: stats.hammersUsed + 1 }));
@@ -921,7 +921,7 @@ function App() {
       setBoard(result.board);
       setEffectCells(result.cells);
       setScreenEffect({ type: "bomb", label: "BOOM!", density: 26 });
-      setTimeout(() => setScreenEffect(null), 1000);
+      setTimeout(() => setScreenEffect(null), 750);
       setTimeout(() => setEffectCells([]), 650);
       consumeBonus("bomb");
       updateStats((stats) => ({ ...stats, bombsUsed: stats.bombsUsed + 1 }));
@@ -938,7 +938,7 @@ function App() {
       setLineEffect({ orientation: blasterMode, index: blasterMode === "row" ? row : col, rect });
       setScreenEffect({ type: "blaster", label: blasterMode === "row" ? "ROW BLAST!" : "COLUMN BLAST!", density: 20 });
       setTimeout(() => setLineEffect(null), 700);
-      setTimeout(() => setScreenEffect(null), 900);
+      setTimeout(() => setScreenEffect(null), 675);
       setTimeout(() => setEffectCells([]), 700);
       consumeBonus("blaster");
       updateStats((stats) => ({ ...stats, blastersUsed: stats.blastersUsed + 1 }));

@@ -1,29 +1,18 @@
-# Jacksmash drag placement sync v1
+# Jacksmash animation smoothing v1
 
-## Fixed
+## Changes
 
-The dragged block was visually moved up above your finger, but the board preview/drop targeting was still using your actual finger point.
-
-This version syncs them.
-
-## Change
-
-Both now use the same offset:
-
-```js
-const DRAG_VISUAL_Y_OFFSET = 70;
-```
-
-That means:
-- visual piece sits above your finger
-- board preview matches the visual piece
-- drop placement matches the visual piece
-- side-to-side alignment stays unchanged
+- Smoothed the bonus-earned animation.
+- Removed the repeated jumpy pop feeling.
+- Bonus-earned popup now does one clean appearance and one smooth move/fade.
+- Smash / Big Smash / Mega Smash / Shuffle style overlays are shortened to roughly 75% of the previous display time.
+- Particle burst durations reduced.
+- New-best animation shortened.
 
 ## Deploy
 
 ```bash
 git add .
-git commit -m "Sync drag visual and board placement"
+git commit -m "Smooth animations and shorten overlays"
 git push
 ```
