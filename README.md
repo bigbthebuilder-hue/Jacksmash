@@ -1,32 +1,45 @@
-# Block Boast
+# Jacksmash
 
-Simple phone-friendly block puzzle game.
+Bright, phone-friendly drag-and-drop block puzzle game.
 
 ## Run locally
-
-1. Open this folder in VS Code.
-2. Open the terminal.
-3. Run:
 
 ```bash
 npm install
 npm run dev
 ```
 
-4. Open the local link shown in the terminal.
+## Rebalanced in this version
 
-## Deploy
+- Reduced small L-piece frequency.
+- Prevents more than one small L piece in the same 3-piece tray.
+- Easy pool now favors lines, 2×2 squares, and brick pieces.
+- Medium pool favors lines, T/Z pieces, squares, and bricks.
+- Large clearing pieces show up more often when the board has room.
+- 1×1 and 1×2 pieces are still removed.
 
-Push this folder to GitHub, then import it into Vercel.
+## Current bonuses
 
-## Phone install
+- Hammer — clears 1 block. Max 2.
+- Bomb — clears a 3×3 area. Max 1.
+- Line Blaster — clears 1 row or 1 column. Max 1.
+- Shuffle — rerolls the current 3 pieces. Max 1.
 
-After it is deployed:
-- Open the Vercel app link on your phone.
-- Android: browser menu → Add to Home Screen.
-- iPhone/iPad: Safari share button → Add to Home Screen.
+## Earning rules
 
-## Notes
+- Clear 2 lines = Hammer
+- Clear 3 lines = Bomb
+- Clear 4+ lines = Line Blaster + Bomb
+- Combo 4+ = Hammer
+- Every 1500 score = Shuffle
 
-This first version uses tap-to-place controls.
-That is easier and cleaner on phones than drag-and-drop.
+
+## Vercel build note
+
+This version uses Node to run Vite directly:
+
+```bash
+node node_modules/vite/bin/vite.js build
+```
+
+That avoids Vercel permission errors with `node_modules/.bin/vite`.
