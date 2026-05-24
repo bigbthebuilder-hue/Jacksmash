@@ -11,6 +11,7 @@
   },
   "devDependencies": {
     "vite": "latest",
-    "@vitejs/plugin-react": "latest"
+    "@vitejs/plugin-react": "latest",
+    "vite-plugin-pwa": "latest"
   }
 }

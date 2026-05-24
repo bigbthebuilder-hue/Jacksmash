@@ -1,25 +1,37 @@
 # Jacksmash
 
-Offline + bonus earned animation v1.
+Offline fixed v2.
 
-## Added
+## What changed
 
-- Bonus-earned animation when a power is awarded.
-- Large bonus-earned overlay.
-- Bonus-specific colors for Hammer, Bomb, Blaster, and Shuffle.
-- Service worker offline caching.
-- Installed app can open offline after it has loaded once online.
+This version replaces the hand-written service worker with `vite-plugin-pwa`.
 
-## Important offline note
+The production build now automatically precaches:
+- HTML
+- JS
+- CSS
+- manifest
+- icon
+- app shell files
 
-After deploying:
-1. Open the app once with internet.
-2. Let it fully load.
-3. Then it should open offline from the home-screen app.
+This should fix the phone showing "offline" when opening the installed app without internet.
 
-When updating future versions, the phone may need:
-- close/reopen the app, or
-- open the app once while online
+## Very important
+
+After deploying this version:
+
+1. Open the live Vercel link with internet.
+2. Refresh once.
+3. Close the app/browser.
+4. Open Jacksmash again with internet one more time.
+5. Then turn off Wi-Fi/data and test the home-screen app.
+
+The first online open installs the service worker.
+The second online open makes sure the installed app is controlled by it.
+
+## If the old offline error keeps showing
+
+Remove the old home-screen icon and install it again from the main production Vercel link.
 
 ## Run locally
 
@@ -32,6 +44,6 @@ npm run dev
 
 ```bash
 git add .
-git commit -m "Add offline and bonus earned animation"
+git commit -m "Fix offline PWA caching"
 git push
 ```
