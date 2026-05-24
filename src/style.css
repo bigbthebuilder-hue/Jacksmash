@@ -1384,3 +1384,133 @@ p,
     padding: 6px;
   }
 }
+
+
+/* Bonus earned animation + offline pass v1 */
+
+.earned-bonus {
+  position: fixed;
+  left: 50%;
+  top: 18%;
+  z-index: 2300;
+  transform: translateX(-50%);
+  min-width: 260px;
+  max-width: 88vw;
+  padding: 12px 16px;
+  border-radius: 24px;
+  background: rgba(238, 243, 255, 0.96);
+  color: #11182b;
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.34),
+    0 0 0 5px rgba(255, 255, 255, 0.12),
+    0 0 34px rgba(255, 213, 110, 0.48);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  pointer-events: none;
+  animation: earnedDrop 1.22s cubic-bezier(.15,1.25,.22,1) both;
+}
+
+.earned-orb {
+  width: 54px;
+  height: 54px;
+  border-radius: 18px;
+  background: linear-gradient(145deg, #fff7d6, #ffd56e);
+  display: grid;
+  place-items: center;
+  font-size: 31px;
+  box-shadow:
+    inset 0 2px 2px rgba(255,255,255,.7),
+    inset 0 -3px 4px rgba(0,0,0,.12),
+    0 0 18px rgba(255, 213, 110, .65);
+  animation: earnedOrbPop 1.05s ease-out both;
+}
+
+.earned-bonus b {
+  display: block;
+  font-size: 20px;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.earned-bonus span {
+  display: block;
+  margin-top: 3px;
+  font-size: 12px;
+  font-weight: 950;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: rgba(17, 24, 43, 0.58);
+}
+
+.earned-hammer .earned-orb {
+  background: linear-gradient(145deg, #dff7ff, #8ac8ff);
+}
+
+.earned-bomb .earned-orb {
+  background: linear-gradient(145deg, #ffe6a8, #ff933f);
+}
+
+.earned-blaster .earned-orb {
+  background: linear-gradient(145deg, #e9e3ff, #9b72ff);
+}
+
+.earned-shuffle .earned-orb {
+  background: linear-gradient(145deg, #dffffb, #30c9bf);
+}
+
+.effect-earned .burst-word {
+  font-size: 36px !important;
+  color: #fff7d6;
+  text-shadow:
+    0 3px 0 #11182b,
+    0 7px 22px rgba(0,0,0,.38),
+    0 0 32px rgba(255, 213, 110, .88);
+}
+
+@keyframes earnedDrop {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-26px) scale(.78) rotate(-3deg);
+    filter: blur(4px);
+  }
+  18% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1.06) rotate(1deg);
+    filter: blur(0);
+  }
+  72% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-18px) scale(.96);
+  }
+}
+
+@keyframes earnedOrbPop {
+  0% { transform: scale(.45) rotate(-18deg); }
+  35% { transform: scale(1.18) rotate(8deg); }
+  100% { transform: scale(1) rotate(0); }
+}
+
+@media (max-width: 760px) {
+  .earned-bonus {
+    top: 13%;
+    min-width: 230px;
+    padding: 10px 13px;
+    border-radius: 21px;
+  }
+
+  .earned-orb {
+    width: 48px;
+    height: 48px;
+    border-radius: 16px;
+    font-size: 27px;
+  }
+
+  .earned-bonus b {
+    font-size: 18px;
+  }
+}

@@ -488,11 +488,27 @@ function App() {
   const [effectCells, setEffectCells] = useState([]);
   const [burstLevel, setBurstLevel] = useState(null);
   const [screenEffect, setScreenEffect] = useState(null);
+  const [earnedBonus, setEarnedBonus] = useState(null);
   const [lineEffect, setLineEffect] = useState(null);
   const [shakeIndex, setShakeIndex] = useState(null);
   const [scorePop, setScorePop] = useState(null);
 
   const occupiedCount = useMemo(() => board.flat().filter(Boolean).length, [board]);
+
+  const bonusDisplay = {
+    hammer: { emoji: "🔨", label: "Hammer Earned!" },
+    bomb: { emoji: "💣", label: "Bomb Earned!" },
+    blaster: { emoji: "⚡", label: "Blaster Earned!" },
+    shuffle: { emoji: "🔀", label: "Shuffle Earned!" },
+  };
+
+  useEffect(() => {
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("/sw.js").catch(() => {});
+      });
+    }
+  }, []);
 
   useEffect(() => {
     localStorage.setItem("jacksmashBest", String(best));
@@ -579,14 +595,22 @@ function App() {
     setLineEffect(null);
     setScorePop(null);
     setShakeIndex(null);
+    setEarnedBonus(null);
   }
 
   function awardBonus(type, reasonText) {
     setBonuses((current) => {
       const nextValue = Math.min(BONUS_LIMITS[type], current[type] + 1);
+
       if (nextValue !== current[type]) {
+        const display = bonusDisplay[type];
         setMessage(reasonText);
+        setEarnedBonus({ type, emoji: display.emoji, label: display.label, id: Date.now() });
+        setScreenEffect({ type: "earned", label: display.label.toUpperCase(), density: 18 });
+        setTimeout(() => setEarnedBonus(null), 1250);
+        setTimeout(() => setScreenEffect(null), 900);
       }
+
       return { ...current, [type]: nextValue };
     });
   }
@@ -918,6 +942,16 @@ function App() {
             {screenEffect?.type === "bomb" && <div className="shock-ring" />}
             {screenEffect?.type === "hammer" && <div className="crack-flash" />}
             {screenEffect?.type === "shuffle" && <div className="shuffle-swirl" />}
+          </div>
+        )}
+
+        {earnedBonus && (
+          <div className={`earned-bonus earned-${earnedBonus.type}`} key={earnedBonus.id} aria-hidden="true">
+            <div className="earned-orb">{earnedBonus.emoji}</div>
+            <div>
+              <b>{earnedBonus.label}</b>
+              <span>Power added</span>
+            </div>
           </div>
         )}
 

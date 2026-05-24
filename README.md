@@ -1,16 +1,25 @@
 # Jacksmash
 
-Phone layout v2
+Offline + bonus earned animation v1.
 
-This version improves the mobile layout again.
+## Added
 
-Changes:
-- Score and Combo are back in a compact row.
-- Bonus buttons are larger.
-- Piece tray is moved up.
-- Piece tray is taller so 4- and 5-block tall pieces show fully.
-- Board card no longer wastes extra empty vertical space.
-- Still uses the dark UI around the original board/piece colors.
+- Bonus-earned animation when a power is awarded.
+- Large bonus-earned overlay.
+- Bonus-specific colors for Hammer, Bomb, Blaster, and Shuffle.
+- Service worker offline caching.
+- Installed app can open offline after it has loaded once online.
+
+## Important offline note
+
+After deploying:
+1. Open the app once with internet.
+2. Let it fully load.
+3. Then it should open offline from the home-screen app.
+
+When updating future versions, the phone may need:
+- close/reopen the app, or
+- open the app once while online
 
 ## Run locally
 
@@ -23,6 +32,6 @@ npm run dev
 
 ```bash
 git add .
-git commit -m "Phone layout v2"
+git commit -m "Add offline and bonus earned animation"
 git push
 ```
