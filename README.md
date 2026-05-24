@@ -32,3 +32,13 @@ git push
 ```
 
 Vercel should redeploy automatically.
+
+
+## Dark theme pass v1
+
+This version changes the app from a light background to a dark theme with:
+- dark gradient page background
+- dark cards and buttons
+- higher-contrast text
+- darker board frame and cells
+- updated browser/app theme color

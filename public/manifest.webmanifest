@@ -4,8 +4,8 @@
   "description": "A bright drag-and-drop smash puzzle game.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#fff1e8",
-  "theme_color": "#fff1e8",
+  "background_color": "#11182b",
+  "theme_color": "#11182b",
   "orientation": "portrait",
   "icons": [
     {
