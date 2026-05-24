@@ -21,12 +21,7 @@ export default defineConfig({
         theme_color: "#11182b",
         categories: ["games", "entertainment"],
         icons: [
-          {
-            src: "/icon.svg",
-            sizes: "any",
-            type: "image/svg+xml",
-            purpose: "any maskable"
-          }
+          { src: "/icon.svg", sizes: "any", type: "image/svg+xml", purpose: "any maskable" }
         ]
       },
       workbox: {
@@ -34,31 +29,7 @@ export default defineConfig({
         navigateFallback: "/index.html",
         cleanupOutdatedCaches: true,
         clientsClaim: true,
-        skipWaiting: true,
-        runtimeCaching: [
-          {
-            urlPattern: ({ request }) => request.mode === "navigate",
-            handler: "NetworkFirst",
-            options: {
-              cacheName: "jacksmash-pages",
-              networkTimeoutSeconds: 2
-            }
-          },
-          {
-            urlPattern: ({ request }) =>
-              request.destination === "script" ||
-              request.destination === "style" ||
-              request.destination === "image" ||
-              request.destination === "manifest",
-            handler: "StaleWhileRevalidate",
-            options: {
-              cacheName: "jacksmash-assets"
-            }
-          }
-        ]
-      },
-      devOptions: {
-        enabled: false
+        skipWaiting: true
       }
     })
   ]

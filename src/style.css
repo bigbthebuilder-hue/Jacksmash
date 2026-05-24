@@ -1514,3 +1514,197 @@ p,
     font-size: 18px;
   }
 }
+
+
+/* Animations + stats pass v1 */
+
+.top-actions {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.stats-btn {
+  border: 0;
+  border-radius: 18px;
+  background: rgba(23, 30, 49, 0.92);
+  color: #eef3ff;
+  padding: 10px 12px;
+  font-weight: 950;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.earned-bonus {
+  position: fixed;
+  left: 50%;
+  top: 13%;
+  z-index: 2300;
+  transform: translateX(-50%);
+  min-width: 250px;
+  max-width: 88vw;
+  padding: 11px 15px;
+  border-radius: 24px;
+  background: rgba(238, 243, 255, 0.98);
+  color: #11182b;
+  box-shadow: 0 18px 40px rgba(0,0,0,.34), 0 0 0 5px rgba(255,255,255,.12), 0 0 34px rgba(255,213,110,.48);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  pointer-events: none;
+  animation: earnedFlyToTray 1.42s cubic-bezier(.15,1.15,.22,1) both;
+}
+
+.earned-orb {
+  width: 52px;
+  height: 52px;
+  border-radius: 18px;
+  background: linear-gradient(145deg, #fff7d6, #ffd56e);
+  display: grid;
+  place-items: center;
+  font-size: 30px;
+  box-shadow: inset 0 2px 2px rgba(255,255,255,.7), inset 0 -3px 4px rgba(0,0,0,.12), 0 0 18px rgba(255,213,110,.65);
+  animation: earnedOrbPop 1.05s ease-out both;
+}
+
+.earned-bonus b {
+  display: block;
+  font-size: 19px;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.earned-bonus span {
+  display: block;
+  margin-top: 3px;
+  font-size: 12px;
+  font-weight: 950;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: rgba(17,24,43,.58);
+}
+
+.earned-hammer .earned-orb { background: linear-gradient(145deg, #dff7ff, #8ac8ff); }
+.earned-bomb .earned-orb { background: linear-gradient(145deg, #ffe6a8, #ff933f); }
+.earned-blaster .earned-orb { background: linear-gradient(145deg, #e9e3ff, #9b72ff); }
+.earned-shuffle .earned-orb { background: linear-gradient(145deg, #dffffb, #30c9bf); }
+
+.new-best-stamp {
+  position: fixed;
+  left: 50%;
+  top: 43%;
+  z-index: 2400;
+  transform: translate(-50%, -50%);
+  color: #fff7d6;
+  font-size: clamp(42px, 13vw, 78px);
+  font-weight: 1000;
+  letter-spacing: -0.08em;
+  white-space: nowrap;
+  text-shadow: 0 4px 0 #11182b, 0 9px 30px rgba(0,0,0,.45), 0 0 42px rgba(255,213,110,.86);
+  animation: newBestSlam 1.2s cubic-bezier(.12,1.3,.2,1) both;
+  pointer-events: none;
+}
+
+.stats-panel {
+  position: fixed;
+  left: 12px;
+  right: 12px;
+  top: 86px;
+  z-index: 2200;
+  border-radius: 26px;
+  background: rgba(17,24,43,.98);
+  color: #eef3ff;
+  box-shadow: 0 20px 50px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.06);
+  padding: 14px;
+  animation: statsIn .22s ease-out both;
+  border: 1px solid rgba(255,255,255,.08);
+}
+
+.stats-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.stats-panel-head b { font-size: 20px; }
+
+.stats-panel-head button {
+  border: 0;
+  border-radius: 14px;
+  padding: 9px 12px;
+  font-weight: 950;
+  background: rgba(255,255,255,.1);
+  color: #eef3ff;
+}
+
+.stats-list {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 9px 12px;
+  align-items: center;
+}
+
+.stats-list span {
+  color: rgba(238,243,255,.72);
+  font-weight: 800;
+}
+
+.stats-list strong { font-size: 18px; }
+
+.line-strike.normal-clear {
+  background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,245,171,.95), rgba(255,211,75,1), rgba(255,245,171,.95), rgba(255,255,255,0));
+  box-shadow: 0 0 18px rgba(255,255,255,.8), 0 0 38px rgba(255,213,110,.82), 0 0 64px rgba(255,147,63,.55);
+}
+
+.effect-newbest .burst-word,
+.effect-earned .burst-word {
+  color: #fff7d6;
+  text-shadow: 0 3px 0 #11182b, 0 7px 22px rgba(0,0,0,.38), 0 0 32px rgba(255,213,110,.88);
+}
+
+@keyframes earnedFlyToTray {
+  0% { opacity: 0; transform: translateX(-50%) translateY(-26px) scale(.72) rotate(-4deg); filter: blur(4px); }
+  16% { opacity: 1; transform: translateX(-50%) translateY(0) scale(1.06) rotate(1deg); filter: blur(0); }
+  62% { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+  100% { opacity: 0; transform: translateX(-50%) translateY(72px) scale(.24); filter: blur(2px); }
+}
+
+@keyframes earnedOrbPop {
+  0% { transform: scale(.45) rotate(-18deg); }
+  35% { transform: scale(1.18) rotate(8deg); }
+  100% { transform: scale(1) rotate(0); }
+}
+
+@keyframes newBestSlam {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(.25) rotate(-15deg); filter: blur(6px); }
+  20% { opacity: 1; transform: translate(-50%, -50%) scale(1.18) rotate(3deg); filter: blur(0); }
+  54% { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(-2deg); }
+  100% { opacity: 0; transform: translate(-50%, -92%) scale(1.2) rotate(7deg); }
+}
+
+@keyframes statsIn {
+  from { opacity: 0; transform: translateY(-10px) scale(.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@media (max-width: 760px) {
+  .stats-btn {
+    padding: 10px 11px;
+    font-size: 14px;
+  }
+  .top-actions { gap: 5px; }
+  .earned-bonus {
+    top: 12%;
+    min-width: 228px;
+    padding: 10px 13px;
+  }
+  .earned-orb {
+    width: 46px;
+    height: 46px;
+    font-size: 26px;
+  }
+  .earned-bonus b { font-size: 17px; }
+  .stats-panel { top: 76px; }
+}

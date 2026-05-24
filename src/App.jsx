@@ -7,6 +7,35 @@ const BOARD_SIZE = 8;
 const COLORS = ["c-yellow", "c-pink", "c-blue", "c-green", "c-purple", "c-orange", "c-teal"];
 const VISUALS = ["gloss", "gem", "stripe", "pulse", "spark", "chunky"];
 const BONUS_LIMITS = { hammer: 2, bomb: 1, blaster: 1, shuffle: 1 };
+const STATS_KEY = "jacksmashStatsV1";
+
+function defaultStats() {
+  return {
+    bestScore: 0,
+    lastScore: 0,
+    gamesPlayed: 0,
+    lifetimeScore: 0,
+    biggestCombo: 0,
+    biggestClear: 0,
+    bonusesEarned: 0,
+    bombsUsed: 0,
+    hammersUsed: 0,
+    blastersUsed: 0,
+    shufflesUsed: 0,
+  };
+}
+
+function loadStats() {
+  try {
+    return { ...defaultStats(), ...JSON.parse(localStorage.getItem(STATS_KEY) || "{}") };
+  } catch {
+    return defaultStats();
+  }
+}
+
+function saveStats(stats) {
+  localStorage.setItem(STATS_KEY, JSON.stringify(stats));
+}
 
 const SHAPES = [
   { id: "line3h", name: "3 Line", group: "line", cells: [[0, 0], [1, 0], [2, 0]] },
@@ -316,9 +345,11 @@ function generateFairPieces(board) {
 
     const groups = new Set(pieces.map((piece) => piece.group));
     const smallLCount = pieces.filter((piece) => piece.id.startsWith("l3")).length;
+    const mediumLCount = pieces.filter((piece) => piece.id.startsWith("l4")).length;
 
     if (groups.size < 2) continue;
     if (smallLCount > 1) continue;
+    if (mediumLCount > 1) continue;
 
     if (isSolvableSet(board, pieces)) return pieces;
   }
@@ -330,7 +361,9 @@ function generateFairPieces(board) {
       randomPiece(2, MEDIUM_SHAPES),
     ];
     const smallLCount = pieces.filter((piece) => piece.id.startsWith("l3")).length;
+    const mediumLCount = pieces.filter((piece) => piece.id.startsWith("l4")).length;
     if (smallLCount > 1) continue;
+    if (mediumLCount > 1) continue;
     if (isSolvableSet(board, pieces)) return pieces;
   }
 
@@ -499,8 +532,12 @@ function App() {
   const [pieces, setPieces] = useState(() => generateFairPieces(emptyBoard()));
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [score, setScore] = useState(0);
-  const [best, setBest] = useState(() => Number(localStorage.getItem("jacksmashBest") || 0));
+  const [stats, setStats] = useState(() => loadStats());
+  const [best, setBest] = useState(() => Math.max(Number(localStorage.getItem("jacksmashBest") || 0), loadStats().bestScore));
   const [combo, setCombo] = useState(0);
+  const [showStats, setShowStats] = useState(false);
+  const [newBest, setNewBest] = useState(false);
+  const [gameRecorded, setGameRecorded] = useState(false);
   const [message, setMessage] = useState("Drag a block. Medium L added. Open boards get more 3×3 squares.");
   const [gameOver, setGameOver] = useState(false);
 
@@ -531,6 +568,12 @@ function App() {
 
   useEffect(() => {
     localStorage.setItem("jacksmashBest", String(best));
+    setStats((current) => {
+      if (best <= current.bestScore) return current;
+      const next = { ...current, bestScore: best };
+      saveStats(next);
+      return next;
+    });
   }, [best]);
 
   useEffect(() => {
@@ -591,7 +634,33 @@ function App() {
     };
   }, [drag, board, combo, activeBonus]);
 
+  function updateStats(updater) {
+    setStats((current) => {
+      const next = updater(current);
+      saveStats(next);
+      return next;
+    });
+  }
+
+  function recordFinishedGame(finalScore = score) {
+    if (gameRecorded) return;
+
+    updateStats((current) => ({
+      ...current,
+      gamesPlayed: current.gamesPlayed + 1,
+      lastScore: finalScore,
+      lifetimeScore: current.lifetimeScore + finalScore,
+      bestScore: Math.max(current.bestScore, finalScore, best),
+    }));
+
+    setGameRecorded(true);
+  }
+
   function restart() {
+    if (score > 0 && !gameRecorded) {
+      recordFinishedGame(score);
+    }
+
     const freshBoard = emptyBoard();
     setBoard(freshBoard);
     setPieces(generateFairPieces(freshBoard));
@@ -599,6 +668,8 @@ function App() {
     setScore(0);
     setBest((value) => value);
     setCombo(0);
+    setGameRecorded(false);
+    setNewBest(false);
     setMessage("Fresh run. Bigger pieces, bigger clears.");
     setGameOver(false);
     setBonuses({ hammer: 0, bomb: 0, blaster: 0, shuffle: 0 });
@@ -684,13 +755,35 @@ function App() {
     const scoring = scoreMove(piece, clearResult.cleared, combo);
     const nextScore = score + scoring.gained;
 
+    if (nextScore > best) {
+      setNewBest(true);
+      setScreenEffect({ type: "newbest", label: "NEW BEST!", density: 30 });
+      setTimeout(() => setNewBest(false), 1300);
+      setTimeout(() => setScreenEffect(null), 1000);
+    }
+
+    updateStats((current) => ({
+      ...current,
+      biggestCombo: Math.max(current.biggestCombo, scoring.nextCombo),
+      biggestClear: Math.max(current.biggestClear, clearResult.cleared),
+    }));
+
     const placedCells = piece.cells.map(([x, y]) => `${row + y}-${col + x}`);
     setPlacedFlash(placedCells);
     setTimeout(() => setPlacedFlash([]), 420);
 
     if (clearResult.cleared > 0) {
       setClearFlash({ rows: clearResult.rows, cols: clearResult.cols });
-      setTimeout(() => setClearFlash({ rows: [], cols: [] }), 520);
+      setTimeout(() => setClearFlash({ rows: [], cols: [] }), 650);
+
+      const rect = boardRef.current?.getBoundingClientRect();
+      if (rect && clearResult.rows.length) {
+        setLineEffect({ orientation: "row", index: clearResult.rows[0], rect, normalClear: true });
+        setTimeout(() => setLineEffect(null), 720);
+      } else if (rect && clearResult.cols.length) {
+        setLineEffect({ orientation: "col", index: clearResult.cols[0], rect, normalClear: true });
+        setTimeout(() => setLineEffect(null), 720);
+      }
       setScreenEffect({ type: "smash", label: clearResult.cleared >= 4 ? "MEGA SMASH!" : clearResult.cleared >= 2 ? "BIG SMASH!" : "SMASH!", density: clearResult.cleared >= 4 ? 36 : clearResult.cleared >= 2 ? 24 : 14 });
       setTimeout(() => setScreenEffect(null), 900);
     }
@@ -737,6 +830,7 @@ function App() {
         setMessage("No piece fits. Use a bonus to break through.");
       } else {
         setGameOver(true);
+        recordFinishedGame(nextScore);
         setMessage("Game over. No piece fits and no bonuses remain.");
       }
     }, 60);
@@ -758,6 +852,7 @@ function App() {
     setPieces(nextPieces);
     setActiveBonus(null);
     setBonuses((current) => ({ ...current, shuffle: current.shuffle - 1 }));
+    updateStats((stats) => ({ ...stats, shufflesUsed: stats.shufflesUsed + 1 }));
     setScreenEffect({ type: "shuffle", label: "SHUFFLE!", density: 22 });
     setTimeout(() => setScreenEffect(null), 900);
     setMessage("Pieces rerolled.");
@@ -812,6 +907,7 @@ function App() {
       setTimeout(() => setScreenEffect(null), 700);
       setTimeout(() => setEffectCells([]), 500);
       consumeBonus("hammer");
+      updateStats((stats) => ({ ...stats, hammersUsed: stats.hammersUsed + 1 }));
       setMessage("Hammer smashed a block.");
       setGameOver(false);
       return;
@@ -825,6 +921,7 @@ function App() {
       setTimeout(() => setScreenEffect(null), 1000);
       setTimeout(() => setEffectCells([]), 650);
       consumeBonus("bomb");
+      updateStats((stats) => ({ ...stats, bombsUsed: stats.bombsUsed + 1 }));
       setMessage("Bomb cleared a 3×3 area.");
       setGameOver(false);
       return;
@@ -841,6 +938,7 @@ function App() {
       setTimeout(() => setScreenEffect(null), 900);
       setTimeout(() => setEffectCells([]), 700);
       consumeBonus("blaster");
+      updateStats((stats) => ({ ...stats, blastersUsed: stats.blastersUsed + 1 }));
       setMessage(blasterMode === "row" ? "Row vaporized." : "Column vaporized.");
       setGameOver(false);
     }
@@ -878,10 +976,15 @@ function App() {
             <p>Smash combos. Clear lines. Earn powers.</p>
           </div>
 
-          <button className="reset-btn" onClick={restart}>
-            <RotateCcw size={18} />
-            Reset
-          </button>
+          <div className="top-actions">
+            <button className="stats-btn" onClick={() => setShowStats((value) => !value)}>
+              Stats
+            </button>
+            <button className="reset-btn" onClick={restart}>
+              <RotateCcw size={18} />
+              Reset
+            </button>
+          </div>
         </header>
 
         <div className="stats-grid">
@@ -938,7 +1041,7 @@ function App() {
 
         {lineEffect && (
           <div
-            className={`line-strike ${lineEffect.orientation === "row" ? "strike-row" : "strike-col"}`}
+            className={`line-strike ${lineEffect.normalClear ? "normal-clear" : ""} ${lineEffect.orientation === "row" ? "strike-row" : "strike-col"}`}
             style={getLineEffectStyle(lineEffect)}
             aria-hidden="true"
           />
@@ -974,9 +1077,43 @@ function App() {
           </div>
         )}
 
+        {earnedBonus && (
+          <div className={`earned-bonus earned-${earnedBonus.type}`} key={earnedBonus.id} aria-hidden="true">
+            <div className="earned-orb">{earnedBonus.emoji}</div>
+            <div>
+              <b>{earnedBonus.label}</b>
+              <span>Power added</span>
+            </div>
+          </div>
+        )}
+
+        {newBest && (
+          <div className="new-best-stamp" aria-hidden="true">
+            NEW BEST!
+          </div>
+        )}
+
+        {showStats && (
+          <div className="stats-panel">
+            <div className="stats-panel-head">
+              <b>Jacksmash Stats</b>
+              <button onClick={() => setShowStats(false)}>Close</button>
+            </div>
+            <div className="stats-list">
+              <span>Best</span><strong>{Math.max(stats.bestScore, best)}</strong>
+              <span>Last</span><strong>{stats.lastScore}</strong>
+              <span>Games</span><strong>{stats.gamesPlayed}</strong>
+              <span>Lifetime</span><strong>{stats.lifetimeScore}</strong>
+              <span>Biggest combo</span><strong>{stats.biggestCombo}</strong>
+              <span>Biggest clear</span><strong>{stats.biggestClear}</strong>
+              <span>Bonuses earned</span><strong>{stats.bonusesEarned}</strong>
+            </div>
+          </div>
+        )}
+
         <div className="message-bar">
           <span>{message}</span>
-          <small>Best: {best}</small>
+          <small>Best: {Math.max(stats.bestScore, best)}</small>
         </div>
 
         {gameOver && (
@@ -1004,7 +1141,7 @@ function App() {
           <div
             className="drag-float"
             style={{
-              transform: `translate3d(${drag.x}px, ${drag.y}px, 0) translate(-100%, -100%)`,
+              transform: `translate3d(${drag.x}px, ${drag.y}px, 0) translate(-100%, calc(-100% - 70px))`,
             }}
           >
             <PieceShape piece={drag.piece} scale="drag" />
