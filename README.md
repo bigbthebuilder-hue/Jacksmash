@@ -1,20 +1,20 @@
 # Jacksmash
 
-Bright, phone-friendly drag-and-drop block puzzle game.
+Dark UI only v1
 
-## Phone layout pass v1
+This version keeps the game colors from the original version and only changes the surrounding UI.
 
-This version fixes the mobile height issue seen on the S24 Ultra.
+Changed:
+- dark page background
+- dark cards / buttons / panels
+- dark board frame
+- light text for contrast
+- updated browser/app theme color
 
-Changes:
-- More compact header.
-- Smaller stat cards.
-- Bonus buttons now fit in one compact row on phones.
-- Smaller board padding and cell gaps.
-- Board uses flexible remaining height.
-- Piece tray stays visible at the bottom.
-- Extra compact mode for shorter browser viewports.
-- Includes Vercel build permission fix.
+Not changed:
+- piece colors
+- board tile colors
+- block visuals and animations
 
 ## Run locally
 
@@ -27,18 +27,6 @@ npm run dev
 
 ```bash
 git add .
-git commit -m "Fix phone layout"
+git commit -m "Dark UI only"
 git push
 ```
-
-Vercel should redeploy automatically.
-
-
-## Dark theme pass v1
-
-This version changes the app from a light background to a dark theme with:
-- dark gradient page background
-- dark cards and buttons
-- higher-contrast text
-- darker board frame and cells
-- updated browser/app theme color
