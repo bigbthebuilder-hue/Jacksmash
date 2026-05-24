@@ -1,18 +1,25 @@
-# Jacksmash animation smoothing v1
+# Jacksmash performance-safe animations v1
+
+## Why
+
+The previous animation pass was too heavy for phone GPUs after longer play sessions.
+It could cause black repaint blocks and glitchy areas after repeated bonus/clear animations.
 
 ## Changes
 
-- Smoothed the bonus-earned animation.
-- Removed the repeated jumpy pop feeling.
-- Bonus-earned popup now does one clean appearance and one smooth move/fade.
-- Smash / Big Smash / Mega Smash / Shuffle style overlays are shortened to roughly 75% of the previous display time.
-- Particle burst durations reduced.
-- New-best animation shortened.
+- Removed heavy blur/filter use from overlays.
+- Removed the large flying bonus card movement.
+- Replaced it with a lightweight top toast.
+- Bonus buttons still pulse when ready/active.
+- Reduced particle count.
+- Reduced overlay duration.
+- Simplified line strike, bomb, shuffle, and new-best animations.
+- Kept gameplay, stats, offline setup, medium L rules, and drag placement sync.
 
 ## Deploy
 
 ```bash
 git add .
-git commit -m "Smooth animations and shorten overlays"
+git commit -m "Use performance safe animations"
 git push
 ```
