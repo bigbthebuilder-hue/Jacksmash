@@ -1,20 +1,16 @@
 # Jacksmash
 
-Dark UI only v1
+Phone layout v2
 
-This version keeps the game colors from the original version and only changes the surrounding UI.
+This version improves the mobile layout again.
 
-Changed:
-- dark page background
-- dark cards / buttons / panels
-- dark board frame
-- light text for contrast
-- updated browser/app theme color
-
-Not changed:
-- piece colors
-- board tile colors
-- block visuals and animations
+Changes:
+- Score and Combo are back in a compact row.
+- Bonus buttons are larger.
+- Piece tray is moved up.
+- Piece tray is taller so 4- and 5-block tall pieces show fully.
+- Board card no longer wastes extra empty vertical space.
+- Still uses the dark UI around the original board/piece colors.
 
 ## Run locally
 
@@ -27,6 +23,6 @@ npm run dev
 
 ```bash
 git add .
-git commit -m "Dark UI only"
+git commit -m "Phone layout v2"
 git push
 ```

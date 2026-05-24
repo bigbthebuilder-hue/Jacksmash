@@ -1110,3 +1110,277 @@ p,
     backdrop-filter: blur(8px);
   }
 }
+
+
+/* Phone layout v2
+   - bring score/combo back in compact form
+   - make bonus buttons larger
+   - move tray upward
+   - show tall 4/5 pieces fully
+*/
+
+@media (max-width: 760px) {
+  .app-shell {
+    padding: 8px;
+    overflow: hidden;
+  }
+
+  .game-wrap {
+    height: calc(100svh - 16px);
+    gap: 6px;
+    overflow: hidden;
+  }
+
+  .top-bar {
+    align-items: center;
+    gap: 8px;
+  }
+
+  .logo-bubble {
+    width: 34px;
+    height: 34px;
+    border-radius: 12px;
+  }
+
+  h1 {
+    font-size: clamp(28px, 8vw, 40px);
+    line-height: 0.92;
+  }
+
+  p {
+    display: none;
+  }
+
+  .reset-btn {
+    min-width: 98px;
+    justify-content: center;
+    border-radius: 18px;
+    padding: 10px 12px;
+    font-size: 16px;
+  }
+
+  /* Bring stats back, but compact */
+  .stats-grid {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    gap: 7px;
+  }
+
+  .stat-card {
+    min-height: 54px;
+    border-radius: 20px;
+    padding: 8px 10px;
+    gap: 8px;
+  }
+
+  .stat-card svg {
+    width: 21px;
+    height: 21px;
+  }
+
+  .stat-card span {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+  }
+
+  .stat-card strong {
+    font-size: 22px;
+    line-height: 1;
+  }
+
+  .score-pop {
+    top: 7px;
+    right: 10px;
+    font-size: 16px;
+  }
+
+  /* Make bonus buttons larger and clearer */
+  .bonus-tray {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 7px;
+  }
+
+  .bonus-btn {
+    min-height: 70px;
+    border-radius: 18px;
+    padding: 8px 6px;
+    gap: 5px;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+  }
+
+  .bonus-emoji {
+    width: auto;
+    font-size: 23px;
+    line-height: 1;
+  }
+
+  .bonus-meta {
+    align-items: center;
+  }
+
+  .bonus-meta b {
+    font-size: 10px;
+    line-height: 1.02;
+  }
+
+  .bonus-meta small {
+    display: none;
+  }
+
+  .bonus-count {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    margin-left: 0;
+    font-size: 10px;
+  }
+
+  /* Do not let board card eat all remaining height */
+  .board-card {
+    flex: 0 0 auto;
+    padding: 8px;
+    border-radius: 26px;
+    display: block;
+    min-height: 0;
+  }
+
+  .board {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    gap: 4px;
+    padding: 7px;
+    border-radius: 22px;
+  }
+
+  .board-cell {
+    border-radius: 8px;
+  }
+
+  .message-bar {
+    min-height: 38px;
+    border-radius: 16px;
+    padding: 7px 10px;
+    font-size: 13px;
+    line-height: 1.1;
+  }
+
+  .message-bar small {
+    font-size: 11px;
+  }
+
+  /* Pull tray upward and make it tall enough for tall pieces */
+  .piece-tray {
+    margin-top: 0;
+    gap: 8px;
+    padding-bottom: max(2px, env(safe-area-inset-bottom));
+    flex: 0 0 auto;
+    align-items: end;
+  }
+
+  .piece {
+    height: 128px;
+    border-radius: 22px;
+    padding: 8px 6px;
+    overflow: visible;
+  }
+
+  .piece-grid {
+    gap: 4px;
+    align-items: center;
+    justify-items: center;
+  }
+
+  .mini-cell {
+    width: 18px;
+    height: 18px;
+    border-radius: 6px;
+  }
+
+  .drag-piece-grid {
+    gap: 5px;
+  }
+
+  .drag-piece-grid .mini-cell {
+    width: 31px;
+    height: 31px;
+    border-radius: 10px;
+  }
+
+  .game-over {
+    left: 14px;
+    right: 14px;
+    bottom: calc(138px + env(safe-area-inset-bottom));
+    border-radius: 22px;
+  }
+}
+
+/* Extra-short phone screens:
+   keep score visible, keep tray tall enough, tighten everything else */
+@media (max-width: 760px) and (max-height: 760px) {
+  .game-wrap {
+    gap: 5px;
+  }
+
+  .stats-grid {
+    display: grid !important;
+    gap: 6px;
+  }
+
+  .stat-card {
+    min-height: 48px;
+    border-radius: 18px;
+    padding: 7px 9px;
+  }
+
+  .stat-card span {
+    font-size: 9px;
+  }
+
+  .stat-card strong {
+    font-size: 20px;
+  }
+
+  .bonus-btn {
+    min-height: 60px;
+    border-radius: 16px;
+    padding: 7px 5px;
+  }
+
+  .bonus-emoji {
+    font-size: 21px;
+  }
+
+  .bonus-meta b {
+    font-size: 9px;
+  }
+
+  .message-bar {
+    min-height: 32px;
+    padding: 6px 8px;
+    font-size: 12px;
+  }
+
+  .message-bar small {
+    font-size: 10px;
+  }
+
+  .piece {
+    height: 118px;
+  }
+
+  .mini-cell {
+    width: 16px;
+    height: 16px;
+  }
+
+  .board-card {
+    padding: 7px;
+  }
+
+  .board {
+    gap: 3px;
+    padding: 6px;
+  }
+}
