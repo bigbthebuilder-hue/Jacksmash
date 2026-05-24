@@ -1,0 +1,18 @@
+{
+  "name": "Jacksmash",
+  "short_name": "Jacksmash",
+  "description": "A bright drag-and-drop smash puzzle game.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fff1e8",
+  "theme_color": "#fff1e8",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

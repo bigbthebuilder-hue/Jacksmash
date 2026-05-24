@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fff7d6"/>
+      <stop offset=".52" stop-color="#fff1e8"/>
+      <stop offset="1" stop-color="#dff7ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <path d="M258 65l31 77 80-31-33 79 77 31-78 31 32 80-78-33-31 78-31-78-79 33 33-80-78-31 77-31-32-79 80 31 32-77z" fill="#172033"/>
+  <rect x="101" y="103" width="82" height="82" rx="21" fill="#ffc83d"/>
+  <rect x="194" y="104" width="82" height="82" rx="21" fill="#4cbaff"/>
+  <rect x="287" y="104" width="82" height="82" rx="21" fill="#9b72ff"/>
+  <rect x="148" y="199" width="82" height="82" rx="21" fill="#45cf7d"/>
+  <rect x="241" y="199" width="82" height="82" rx="21" fill="#ff6f9f"/>
+  <rect x="194" y="293" width="82" height="82" rx="21" fill="#ff933f"/>
+  <rect x="287" y="293" width="82" height="82" rx="21" fill="#30c9bf"/>
+  <path d="M257 169l18 45 47-18-20 45 45 18-46 18 20 47-46-20-18 46-18-46-47 20 20-47-46-18 45-18-19-45 47 18 18-45z" fill="#fff1e8"/>
+</svg>
