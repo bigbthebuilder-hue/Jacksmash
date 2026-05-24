@@ -7,6 +7,7 @@ const BOARD_SIZE = 8;
 const COLORS = ["c-yellow", "c-pink", "c-blue", "c-green", "c-purple", "c-orange", "c-teal"];
 const VISUALS = ["gloss", "gem", "stripe", "pulse", "spark", "chunky"];
 const BONUS_LIMITS = { hammer: 2, bomb: 1, blaster: 1, shuffle: 1 };
+const DRAG_VISUAL_Y_OFFSET = 70;
 const STATS_KEY = "jacksmashStatsV1";
 
 function defaultStats() {
@@ -398,7 +399,9 @@ function getRawBoardCellFromPointer(boardRef, clientX, clientY) {
 }
 
 function getAnchoredBoardPosition(boardRef, piece, clientX, clientY) {
-  const rawCell = getRawBoardCellFromPointer(boardRef, clientX, clientY);
+  // The dragged piece is displayed above the finger.
+  // Use the same vertical offset for board targeting so the preview/drop matches the visible piece.
+  const rawCell = getRawBoardCellFromPointer(boardRef, clientX, clientY - DRAG_VISUAL_Y_OFFSET);
   if (!rawCell || !piece) return null;
 
   const bounds = getPieceBounds(piece.cells);
@@ -1141,7 +1144,7 @@ function App() {
           <div
             className="drag-float"
             style={{
-              transform: `translate3d(${drag.x}px, ${drag.y}px, 0) translate(-100%, calc(-100% - 70px))`,
+              transform: `translate3d(${drag.x}px, ${drag.y}px, 0) translate(-100%, calc(-100% - ${DRAG_VISUAL_Y_OFFSET}px))`,
             }}
           >
             <PieceShape piece={drag.piece} scale="drag" />

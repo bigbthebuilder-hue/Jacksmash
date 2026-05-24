@@ -1,28 +1,29 @@
-# Jacksmash animations + stats v1
+# Jacksmash drag placement sync v1
 
-## Added
+## Fixed
 
-- Bonus earned animation that flies toward the tray.
-- Stronger line-clear shockwave.
-- New-best-score animation.
-- Stats button/panel.
-- Saved tracking in local storage:
-  - best score
-  - last score
-  - games played
-  - lifetime score
-  - biggest combo
-  - biggest clear
-  - bonuses earned
-  - bonuses used
-- Keeps offline PWA setup.
+The dragged block was visually moved up above your finger, but the board preview/drop targeting was still using your actual finger point.
 
-Stats are saved on each device. There is no login or cloud leaderboard yet.
+This version syncs them.
+
+## Change
+
+Both now use the same offset:
+
+```js
+const DRAG_VISUAL_Y_OFFSET = 70;
+```
+
+That means:
+- visual piece sits above your finger
+- board preview matches the visual piece
+- drop placement matches the visual piece
+- side-to-side alignment stays unchanged
 
 ## Deploy
 
 ```bash
 git add .
-git commit -m "Add animations and stats tracking"
+git commit -m "Sync drag visual and board placement"
 git push
 ```
