@@ -1,37 +1,29 @@
 # Jacksmash
 
-Offline fixed v2.
+Medium L + open-room 3x3 boost v1
 
-## What changed
+## Changes
 
-This version replaces the hand-written service worker with `vite-plugin-pwa`.
+- Added a new **Medium L** piece set.
+- Medium L is **3 squares long and 2 squares wide**.
+- Added all **4 rotations** of the Medium L.
+- Increased **3×3 square** frequency whenever the board has lots of open room.
+- The 3×3 boost is based on open space, not difficulty.
+- Keeps the earlier small-L control rules.
 
-The production build now automatically precaches:
-- HTML
-- JS
-- CSS
-- manifest
-- icon
-- app shell files
+## New Medium L pieces
 
-This should fix the phone showing "offline" when opening the installed app without internet.
+- l4a
+- l4b
+- l4c
+- l4d
 
-## Very important
+## Generation update
 
-After deploying this version:
-
-1. Open the live Vercel link with internet.
-2. Refresh once.
-3. Close the app/browser.
-4. Open Jacksmash again with internet one more time.
-5. Then turn off Wi-Fi/data and test the home-screen app.
-
-The first online open installs the service worker.
-The second online open makes sure the installed app is controlled by it.
-
-## If the old offline error keeps showing
-
-Remove the old home-screen icon and install it again from the main production Vercel link.
+When the board has **48+ empty cells**, the generator now strongly boosts:
+- 3×3 squares
+- larger clearing pieces
+- the new Medium L pieces
 
 ## Run locally
 
@@ -44,6 +36,6 @@ npm run dev
 
 ```bash
 git add .
-git commit -m "Fix offline PWA caching"
+git commit -m "Add medium L and boost 3x3 squares"
 git push
 ```

@@ -17,14 +17,22 @@ const SHAPES = [
   { id: "line5v", name: "5 Tall", group: "line", cells: [[0, 0], [0, 1], [0, 2], [0, 3], [0, 4]] },
   { id: "sq2", name: "2 Box", group: "square", cells: [[0, 0], [1, 0], [0, 1], [1, 1]] },
   { id: "sq3", name: "3 Box", group: "square", cells: [[0, 0], [1, 0], [2, 0], [0, 1], [1, 1], [2, 1], [0, 2], [1, 2], [2, 2]] },
+
   { id: "l3a", name: "Small L", group: "corner", cells: [[0, 0], [0, 1], [1, 1]] },
   { id: "l3b", name: "Small L", group: "corner", cells: [[1, 0], [0, 1], [1, 1]] },
   { id: "l3c", name: "Small L", group: "corner", cells: [[0, 0], [1, 0], [0, 1]] },
   { id: "l3d", name: "Small L", group: "corner", cells: [[0, 0], [1, 0], [1, 1]] },
+
+  { id: "l4a", name: "Medium L", group: "corner", cells: [[0, 0], [0, 1], [0, 2], [1, 2]] },
+  { id: "l4b", name: "Medium L", group: "corner", cells: [[1, 0], [1, 1], [1, 2], [0, 2]] },
+  { id: "l4c", name: "Medium L", group: "corner", cells: [[0, 0], [1, 0], [2, 0], [0, 1]] },
+  { id: "l4d", name: "Medium L", group: "corner", cells: [[0, 0], [1, 0], [2, 0], [2, 1]] },
+
   { id: "l5a", name: "Big L", group: "corner", cells: [[0, 0], [0, 1], [0, 2], [1, 2], [2, 2]] },
   { id: "l5b", name: "Big L", group: "corner", cells: [[2, 0], [2, 1], [0, 2], [1, 2], [2, 2]] },
   { id: "l5c", name: "Big L", group: "corner", cells: [[0, 0], [1, 0], [2, 0], [0, 1], [0, 2]] },
   { id: "l5d", name: "Big L", group: "corner", cells: [[0, 0], [1, 0], [2, 0], [2, 1], [2, 2]] },
+
   { id: "t4a", name: "T", group: "special", cells: [[0, 0], [1, 0], [2, 0], [1, 1]] },
   { id: "t4b", name: "T", group: "special", cells: [[1, 0], [0, 1], [1, 1], [1, 2]] },
   { id: "t4c", name: "T", group: "special", cells: [[1, 0], [0, 1], [1, 1], [2, 1]] },
@@ -39,12 +47,20 @@ const LINE_SHAPES = SHAPES.filter((shape) =>
   ["line3h", "line3v", "line4h", "line4v", "line5h", "line5v"].includes(shape.id)
 );
 
+const BIG_SQUARE_SHAPES = SHAPES.filter((shape) =>
+  ["sq3"].includes(shape.id)
+);
+
 const SQUARE_BRICK_SHAPES = SHAPES.filter((shape) =>
   ["sq2", "sq3", "bar3x2", "bar2x3"].includes(shape.id)
 );
 
 const SMALL_L_SHAPES = SHAPES.filter((shape) =>
   ["l3a", "l3b", "l3c", "l3d"].includes(shape.id)
+);
+
+const MEDIUM_L_SHAPES = SHAPES.filter((shape) =>
+  ["l4a", "l4b", "l4c", "l4d"].includes(shape.id)
 );
 
 const BIG_L_SHAPES = SHAPES.filter((shape) =>
@@ -56,11 +72,11 @@ const SPECIAL_SHAPES = SHAPES.filter((shape) =>
 );
 
 const EASY_SHAPES = SHAPES.filter((shape) =>
-  ["line3h", "line3v", "line4h", "line4v", "sq2", "bar3x2", "bar2x3"].includes(shape.id)
+  ["line3h", "line3v", "line4h", "line4v", "sq2", "bar3x2", "bar2x3", "l4a", "l4b", "l4c", "l4d"].includes(shape.id)
 );
 
 const MEDIUM_SHAPES = SHAPES.filter((shape) =>
-  ["line3h", "line3v", "line4h", "line4v", "line5h", "line5v", "sq2", "sq3", "t4a", "t4b", "t4c", "t4d", "z4a", "z4b", "bar3x2", "bar2x3"].includes(shape.id)
+  ["line3h", "line3v", "line4h", "line4v", "line5h", "line5v", "sq2", "sq3", "t4a", "t4b", "t4c", "t4d", "z4a", "z4b", "bar3x2", "bar2x3", "l4a", "l4b", "l4c", "l4d"].includes(shape.id)
 );
 
 const CLEARING_SHAPES = SHAPES.filter((shape) =>
@@ -122,26 +138,31 @@ function countEmptyCells(board) {
 function getPiecePoolForBoard(board) {
   const empty = countEmptyCells(board);
 
-  // Weighted pools reduce repeated small L pieces.
-  // Lines, bricks, squares, and larger pieces should show up more often.
+  // Open board: boost 3x3 squares strongly and add the new medium L pieces.
   if (empty >= 48) {
     return {
       first: [
-        { pool: LINE_SHAPES, weight: 4 },
+        { pool: BIG_SQUARE_SHAPES, weight: 4 },
+        { pool: LINE_SHAPES, weight: 3 },
         { pool: SQUARE_BRICK_SHAPES, weight: 3 },
-        { pool: SPECIAL_SHAPES, weight: 2 },
+        { pool: MEDIUM_L_SHAPES, weight: 2 },
+        { pool: SPECIAL_SHAPES, weight: 1 },
         { pool: SMALL_L_SHAPES, weight: 1 },
       ],
       second: [
+        { pool: BIG_SQUARE_SHAPES, weight: 4 },
         { pool: CLEARING_SHAPES, weight: 4 },
         { pool: LINE_SHAPES, weight: 3 },
-        { pool: SPECIAL_SHAPES, weight: 2 },
+        { pool: MEDIUM_L_SHAPES, weight: 2 },
+        { pool: SPECIAL_SHAPES, weight: 1 },
         { pool: SMALL_L_SHAPES, weight: 1 },
       ],
       third: [
+        { pool: BIG_SQUARE_SHAPES, weight: 4 },
         { pool: HARD_SHAPES, weight: 4 },
         { pool: CLEARING_SHAPES, weight: 3 },
         { pool: BIG_L_SHAPES, weight: 1 },
+        { pool: MEDIUM_L_SHAPES, weight: 1 },
       ],
     };
   }
@@ -150,6 +171,7 @@ function getPiecePoolForBoard(board) {
     return {
       first: [
         { pool: EASY_SHAPES, weight: 5 },
+        { pool: MEDIUM_L_SHAPES, weight: 2 },
         { pool: SPECIAL_SHAPES, weight: 2 },
         { pool: SMALL_L_SHAPES, weight: 1 },
       ],
@@ -157,11 +179,13 @@ function getPiecePoolForBoard(board) {
         { pool: MEDIUM_SHAPES, weight: 4 },
         { pool: LINE_SHAPES, weight: 3 },
         { pool: SQUARE_BRICK_SHAPES, weight: 2 },
+        { pool: MEDIUM_L_SHAPES, weight: 2 },
         { pool: SMALL_L_SHAPES, weight: 1 },
       ],
       third: [
         { pool: CLEARING_SHAPES, weight: 4 },
         { pool: MEDIUM_SHAPES, weight: 2 },
+        { pool: MEDIUM_L_SHAPES, weight: 1 },
         { pool: BIG_L_SHAPES, weight: 1 },
       ],
     };
@@ -170,16 +194,19 @@ function getPiecePoolForBoard(board) {
   return {
     first: [
       { pool: EASY_SHAPES, weight: 5 },
+      { pool: MEDIUM_L_SHAPES, weight: 2 },
       { pool: SMALL_L_SHAPES, weight: 1 },
     ],
     second: [
       { pool: EASY_SHAPES, weight: 4 },
       { pool: MEDIUM_SHAPES, weight: 2 },
+      { pool: MEDIUM_L_SHAPES, weight: 2 },
       { pool: SMALL_L_SHAPES, weight: 1 },
     ],
     third: [
       { pool: MEDIUM_SHAPES, weight: 4 },
       { pool: LINE_SHAPES, weight: 2 },
+      { pool: MEDIUM_L_SHAPES, weight: 2 },
       { pool: SMALL_L_SHAPES, weight: 1 },
     ],
   };
@@ -474,7 +501,7 @@ function App() {
   const [score, setScore] = useState(0);
   const [best, setBest] = useState(() => Number(localStorage.getItem("jacksmashBest") || 0));
   const [combo, setCombo] = useState(0);
-  const [message, setMessage] = useState("Drag a block. Fewer small Ls. Bigger clears.");
+  const [message, setMessage] = useState("Drag a block. Medium L added. Open boards get more 3×3 squares.");
   const [gameOver, setGameOver] = useState(false);
 
   const [bonuses, setBonuses] = useState({ hammer: 0, bomb: 0, blaster: 0, shuffle: 0 });
