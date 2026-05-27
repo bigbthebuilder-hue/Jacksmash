@@ -1,25 +1,28 @@
-# Jacksmash performance-safe animations v1
+# Jacksmash stable animation v1
 
-## Why
+## Purpose
 
-The previous animation pass was too heavy for phone GPUs after longer play sessions.
-It could cause black repaint blocks and glitchy areas after repeated bonus/clear animations.
+This version is built to stop mobile screen glitches/black repaint blocks during longer play.
 
 ## Changes
 
-- Removed heavy blur/filter use from overlays.
-- Removed the large flying bonus card movement.
-- Replaced it with a lightweight top toast.
-- Bonus buttons still pulse when ready/active.
-- Reduced particle count.
-- Reduced overlay duration.
-- Simplified line strike, bomb, shuffle, and new-best animations.
-- Kept gameplay, stats, offline setup, medium L rules, and drag placement sync.
+- Disabled particle overlays.
+- Disabled big fixed screen text overlays.
+- Disabled continuous tile animations.
+- Disabled blur/filter/backdrop-filter effects.
+- Removed pulsing bonus animations.
+- Kept simple short feedback:
+  - quick line flash
+  - short clear flash
+  - small bonus-earned toast
+  - small new-best stamp
+- Gameplay is unchanged.
+- Drag placement sync is preserved.
 
 ## Deploy
 
 ```bash
 git add .
-git commit -m "Use performance safe animations"
+git commit -m "Use stable animation mode"
 git push
 ```

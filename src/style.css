@@ -1914,3 +1914,188 @@ p,
     display: none !important;
   }
 }
+
+
+/* Stable animation mode v1 */
+
+* {
+  backface-visibility: visible !important;
+}
+
+.logo-bubble,
+.reset-btn,
+.stats-btn,
+.stat-card,
+.bonus-btn,
+.board-card,
+.message-bar,
+.piece {
+  backdrop-filter: none !important;
+}
+
+/* Stop expensive overlays/particles completely. */
+.burst-layer,
+.burst-bit,
+.shock-ring,
+.crack-flash,
+.shuffle-swirl,
+.burst-word {
+  display: none !important;
+  animation: none !important;
+  filter: none !important;
+}
+
+/* Stop continuous animated block visuals on phone. */
+.v-gem,
+.v-pulse,
+.v-spark,
+.logo-bubble,
+.bonus-ready,
+.bonus-active,
+.preview-valid,
+.preview-clear-line {
+  animation: none !important;
+  filter: none !important;
+}
+
+/* Simple small toast only. */
+.earned-bonus {
+  top: 8px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  min-width: 0 !important;
+  width: auto !important;
+  max-width: 86vw !important;
+  padding: 7px 10px !important;
+  border-radius: 16px !important;
+  gap: 7px !important;
+  animation: stableToast 0.7s ease-out both !important;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.28) !important;
+  filter: none !important;
+  contain: layout paint style;
+}
+
+.earned-orb {
+  width: 30px !important;
+  height: 30px !important;
+  border-radius: 10px !important;
+  font-size: 18px !important;
+  animation: none !important;
+  box-shadow: none !important;
+}
+
+.earned-bonus b {
+  font-size: 13px !important;
+}
+
+.earned-bonus span {
+  display: none !important;
+}
+
+.line-strike {
+  animation: stableLineFlash 0.22s ease-out both !important;
+  box-shadow: none !important;
+  filter: none !important;
+  opacity: 0.8;
+}
+
+.placed-pop {
+  animation: stablePop 0.16s ease-out both !important;
+}
+
+.clear-flash {
+  animation: stableClear 0.22s ease-out both !important;
+}
+
+.effect-cell {
+  animation: stableVanish 0.24s ease-out both !important;
+}
+
+.new-best-stamp {
+  animation: stableNewBest 0.6s ease-out both !important;
+  filter: none !important;
+}
+
+.board-impact {
+  animation: none !important;
+}
+
+.preview-valid {
+  opacity: 0.74 !important;
+  transform: scale(0.94);
+}
+
+.preview-clear-line {
+  box-shadow:
+    inset 0 2px 2px rgba(255,255,255,0.42),
+    inset 0 -3px 3px rgba(0,0,0,0.12),
+    0 0 8px rgba(255,210,72,0.35) !important;
+  filter: none !important;
+}
+
+.bonus-ready {
+  box-shadow:
+    0 8px 22px rgba(0,0,0,0.18),
+    0 0 0 2px rgba(255,213,110,0.16) !important;
+}
+
+.bonus-active {
+  transform: none !important;
+  box-shadow:
+    0 8px 22px rgba(0,0,0,0.18),
+    0 0 0 3px rgba(138,200,255,0.24) !important;
+}
+
+.drag-float,
+.board-cell,
+.mini-cell,
+.piece,
+.bonus-btn {
+  will-change: auto !important;
+}
+
+@keyframes stableToast {
+  0% { opacity: 0; transform: translateX(-50%) translateY(-8px); }
+  18% { opacity: 1; transform: translateX(-50%) translateY(0); }
+  75% { opacity: 1; transform: translateX(-50%) translateY(0); }
+  100% { opacity: 0; transform: translateX(-50%) translateY(-5px); }
+}
+
+@keyframes stableLineFlash {
+  0% { opacity: 0; transform: scale(0.98); }
+  25% { opacity: 0.8; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1); }
+}
+
+@keyframes stablePop {
+  0% { transform: scale(0.92); }
+  100% { transform: scale(1); }
+}
+
+@keyframes stableClear {
+  0% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0.2; transform: scale(0.84); }
+}
+
+@keyframes stableVanish {
+  0% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(0.55); }
+}
+
+@keyframes stableNewBest {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.85); }
+  20% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  70% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -60%) scale(1); }
+}
+
+@media (max-width: 760px) {
+  .v-gem,
+  .v-pulse,
+  .v-spark,
+  .logo-bubble,
+  .bonus-ready,
+  .bonus-active {
+    animation: none !important;
+  }
+}
