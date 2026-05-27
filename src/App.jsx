@@ -688,7 +688,6 @@ function App() {
     setLineEffect(null);
     setScorePop(null);
     setShakeIndex(null);
-    setEarnedBonus(null);
   }
 
   function awardBonus(type, reasonText) {
@@ -696,11 +695,8 @@ function App() {
       const nextValue = Math.min(BONUS_LIMITS[type], current[type] + 1);
 
       if (nextValue !== current[type]) {
-        const display = bonusDisplay[type];
         setMessage(reasonText);
-        setEarnedBonus({ type, emoji: display.emoji, label: display.label, id: Date.now() });
-        setScreenEffect({ type: "earned", label: display.label.toUpperCase(), density: 0 });
-        setTimeout(() => setEarnedBonus(null), 1250);
+        setTimeout(() =>
         setTimeout(() => setScreenEffect(null), 240);
       }
 
@@ -761,8 +757,8 @@ function App() {
     if (nextScore > best) {
       setNewBest(true);
       setScreenEffect({ type: "newbest", label: "NEW BEST!", density: 0 });
-      setTimeout(() => setNewBest(false), 1300);
-      setTimeout(() => setScreenEffect(null), 1000);
+      setTimeout(() => setNewBest(false), 650);
+      setTimeout(() => setScreenEffect(null), 180);
     }
 
     updateStats((current) => ({
@@ -921,7 +917,7 @@ function App() {
       setBoard(result.board);
       setEffectCells(result.cells);
       setScreenEffect({ type: "bomb", label: "BOOM!", density: 0 });
-      setTimeout(() => setScreenEffect(null), 1000);
+      setTimeout(() => setScreenEffect(null), 180);
       setTimeout(() => setEffectCells([]), 260);
       consumeBonus("bomb");
       updateStats((stats) => ({ ...stats, bombsUsed: stats.bombsUsed + 1 }));
@@ -1067,26 +1063,6 @@ function App() {
             {screenEffect?.type === "bomb" && <div className="shock-ring" />}
             {screenEffect?.type === "hammer" && <div className="crack-flash" />}
             {screenEffect?.type === "shuffle" && <div className="shuffle-swirl" />}
-          </div>
-        )}
-
-        {earnedBonus && (
-          <div className={`earned-bonus earned-${earnedBonus.type}`} key={earnedBonus.id} aria-hidden="true">
-            <div className="earned-orb">{earnedBonus.emoji}</div>
-            <div>
-              <b>{earnedBonus.label}</b>
-              <span>Power added</span>
-            </div>
-          </div>
-        )}
-
-        {earnedBonus && (
-          <div className={`earned-bonus earned-${earnedBonus.type}`} key={earnedBonus.id} aria-hidden="true">
-            <div className="earned-orb">{earnedBonus.emoji}</div>
-            <div>
-              <b>{earnedBonus.label}</b>
-              <span>Power added</span>
-            </div>
           </div>
         )}
 

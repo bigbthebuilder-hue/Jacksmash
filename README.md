@@ -1,28 +1,38 @@
-# Jacksmash stable animation v1
+# Jacksmash safe animation system v1
 
-## Purpose
+## New animation baseline
 
-This version is built to stop mobile screen glitches/black repaint blocks during longer play.
+This replaces the risky animation style with a mobile-safe system.
 
-## Changes
+## Removed / disabled
 
-- Disabled particle overlays.
-- Disabled big fixed screen text overlays.
-- Disabled continuous tile animations.
-- Disabled blur/filter/backdrop-filter effects.
-- Removed pulsing bonus animations.
-- Kept simple short feedback:
-  - quick line flash
-  - short clear flash
-  - small bonus-earned toast
-  - small new-best stamp
-- Gameplay is unchanged.
-- Drag placement sync is preserved.
+- particles
+- big screen overlays
+- bonus-earned overlay
+- animated tile effects
+- blur/filter/backdrop-filter effects
+- pulsing bonus animations
+- glow-heavy moving shadows
+- long animations
+
+## Kept
+
+- quick placement pop
+- quick line flash
+- quick clear flash
+- quick bonus-use cell flash
+- static bonus-ready highlight
+- simple new-best stamp
+
+## Why
+
+The previous glitch was likely caused by mobile GPU/compositing pressure after long play.
+This version avoids the CSS properties most likely to trigger those black repaint blocks.
 
 ## Deploy
 
 ```bash
 git add .
-git commit -m "Use stable animation mode"
+git commit -m "Use safe animation system"
 git push
 ```

@@ -2099,3 +2099,197 @@ p,
     animation: none !important;
   }
 }
+
+
+/* No bonus-earned overlay pass v1
+   Disable the earned bonus popup entirely.
+   Earning a bonus now only changes the bonus count and message text. */
+
+.earned-bonus,
+.earned-orb,
+.effect-earned {
+  display: none !important;
+  animation: none !important;
+}
+
+/* Make ready bonus visible without animation. */
+.bonus-ready {
+  animation: none !important;
+  box-shadow:
+    0 8px 22px rgba(0,0,0,0.18),
+    0 0 0 2px rgba(255,213,110,0.18) !important;
+}
+
+
+/* SAFE ANIMATION SYSTEM v1
+   New baseline for mobile stability.
+
+   Rules:
+   - no particles
+   - no large fixed fullscreen overlays
+   - no animated filters/blur/backdrop-filter
+   - no infinite tile animations
+   - no glow-heavy moving shadows
+   - only quick local opacity/scale/color feedback
+*/
+
+/* Kill risky effects from previous builds */
+.burst-layer,
+.burst-bit,
+.burst-word,
+.shock-ring,
+.crack-flash,
+.shuffle-swirl,
+.earned-bonus,
+.earned-orb,
+.effect-earned {
+  display: none !important;
+  animation: none !important;
+  filter: none !important;
+}
+
+/* Kill continuous animation classes */
+.v-gem,
+.v-pulse,
+.v-spark,
+.logo-bubble,
+.bonus-ready,
+.bonus-active,
+.preview-valid,
+.preview-clear-line {
+  animation: none !important;
+  filter: none !important;
+}
+
+/* Kill blur/backdrop effects */
+.logo-bubble,
+.reset-btn,
+.stats-btn,
+.stat-card,
+.bonus-btn,
+.board-card,
+.message-bar,
+.piece {
+  backdrop-filter: none !important;
+}
+
+/* Remove costly render hints/layers */
+.drag-float,
+.board-cell,
+.mini-cell,
+.piece,
+.bonus-btn,
+.board-card,
+.message-bar,
+.stat-card {
+  will-change: auto !important;
+  backface-visibility: visible !important;
+}
+
+/* Stable board-local animations only */
+.placed-pop {
+  animation: safePlacePop 0.14s ease-out both !important;
+}
+
+.clear-flash {
+  animation: safeClearFlash 0.22s ease-out both !important;
+}
+
+.effect-cell {
+  animation: safeCellRemove 0.22s ease-out both !important;
+}
+
+.line-strike {
+  animation: safeLineFlash 0.22s ease-out both !important;
+  box-shadow: none !important;
+  filter: none !important;
+  opacity: 0.76;
+}
+
+.board-impact {
+  animation: none !important;
+}
+
+/* Preview stays readable but not animated */
+.preview-valid {
+  opacity: 0.74 !important;
+  transform: scale(0.94);
+  outline: 2px solid rgba(255,255,255,0.88);
+  outline-offset: -3px;
+}
+
+.preview-clear-line {
+  filter: none !important;
+  box-shadow:
+    inset 0 2px 2px rgba(255,255,255,0.42),
+    inset 0 -3px 3px rgba(0,0,0,0.12),
+    0 0 0 2px rgba(255,213,110,0.45) !important;
+}
+
+/* Bonus state feedback: static, no pulse */
+.bonus-ready {
+  box-shadow:
+    0 8px 22px rgba(0,0,0,0.18),
+    0 0 0 2px rgba(255,213,110,0.18) !important;
+}
+
+.bonus-active {
+  transform: none !important;
+  box-shadow:
+    0 8px 22px rgba(0,0,0,0.18),
+    0 0 0 3px rgba(138,200,255,0.26) !important;
+}
+
+/* New best is the only fixed text, short and simple */
+.new-best-stamp {
+  animation: safeNewBest 0.6s ease-out both !important;
+  filter: none !important;
+  text-shadow: 0 3px 0 #11182b, 0 8px 20px rgba(0,0,0,.35) !important;
+}
+
+/* Bonus-specific local board feedback */
+.effect-cell {
+  background: rgba(255, 213, 110, 0.85) !important;
+}
+
+@keyframes safePlacePop {
+  0% { transform: scale(0.94); }
+  100% { transform: scale(1); }
+}
+
+@keyframes safeClearFlash {
+  0% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0.22; transform: scale(0.86); }
+}
+
+@keyframes safeCellRemove {
+  0% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(0.58); }
+}
+
+@keyframes safeLineFlash {
+  0% { opacity: 0; transform: scale(0.98); }
+  25% { opacity: 0.76; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1); }
+}
+
+@keyframes safeNewBest {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.88); }
+  20% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  70% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -60%) scale(1); }
+}
+
+/* Absolute mobile rule: no infinite animation */
+@media (max-width: 760px) {
+  .v-gem,
+  .v-pulse,
+  .v-spark,
+  .logo-bubble,
+  .bonus-ready,
+  .bonus-active,
+  .preview-valid,
+  .preview-clear-line {
+    animation: none !important;
+  }
+}
