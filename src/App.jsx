@@ -696,8 +696,7 @@ function App() {
 
       if (nextValue !== current[type]) {
         setMessage(reasonText);
-        setTimeout(() =>
-        setTimeout(() => setScreenEffect(null), 240);
+        updateStats((stats) => ({ ...stats, bonusesEarned: stats.bonusesEarned + 1 }));
       }
 
       return { ...current, [type]: nextValue };
